@@ -1,6 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { exec } from "child_process";
-import path from "path";
 
 export async function POST(req: NextRequest) {
     try {
@@ -20,26 +18,34 @@ export async function POST(req: NextRequest) {
         const uH = utcDate.getHours();
         const uMn = utcDate.getMinutes();
 
-        const scriptPath = path.join(process.cwd(), "calculate_jathagam.py");
-        const pythonPath = path.join(process.cwd(), "venv", "bin", "python3");
+        // 2. Call the Python Microservice
+        // Default to localhost for development, environment variable for production
+        const apiUrl = process.env.ASTRO_API_URL || "http://127.0.0.1:8000";
 
-        const command = `"${pythonPath}" "${scriptPath}" ${uY} ${uM} ${uD} ${uH} ${uMn} ${lat} ${lon}`;
+        const payload = {
+            year: uY,
+            month: uM,
+            day: uD,
+            hour: uH,
+            minute: uMn,
+            lat: lat,
+            lon: lon
+        };
 
-        const result: any = await new Promise((resolve, reject) => {
-            exec(command, { encoding: 'utf8' }, (error, stdout, stderr) => {
-                if (error) {
-                    reject(error);
-                    return;
-                }
-                try {
-                    // Find the JSON part if there's any other noise
-                    const output = stdout.trim();
-                    resolve(JSON.parse(output));
-                } catch (e) {
-                    reject(new Error(`Invalid Python output: ${stdout}`));
-                }
-            });
+        console.log(`Sending calculation request to: ${apiUrl}/calculate`);
+
+        const apiResponse = await fetch(`${apiUrl}/calculate`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(payload),
         });
+
+        if (!apiResponse.ok) {
+            const errorText = await apiResponse.text();
+            throw new Error(`Astrology Engine Error (${apiResponse.status}): ${errorText}`);
+        }
+
+        const result = await apiResponse.json();
 
         if (result.error) {
             throw new Error(result.error);
