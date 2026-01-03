@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import HoroscopeForm from "@/components/HoroscopeForm";
 import HoroscopeResult from "@/components/HoroscopeResult";
@@ -17,7 +17,7 @@ import { createClient } from "@/lib/supabase";
 import { consultationService, ConsultationRequest } from "@/lib/services/consultation";
 import { useSearchParams, useRouter } from "next/navigation";
 
-export default function Home() {
+function HomeContent() {
     const [results, setResults] = useState<AstrologyResults | null>(null);
     const [lastInput, setLastInput] = useState<any>(null);
     const [loading, setLoading] = useState(false);
@@ -455,5 +455,20 @@ export default function Home() {
             </div>
             <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} />
         </main>
+    );
+}
+
+export default function Home() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-white">
+                <div className="flex flex-col items-center gap-4">
+                    <div className="w-8 h-8 border-2 border-indigo-600 border-t-transparent rounded-full animate-spin" />
+                    <p className="text-xs font-bold text-indigo-600 uppercase tracking-widest">Loading...</p>
+                </div>
+            </div>
+        }>
+            <HomeContent />
+        </Suspense>
     );
 }
