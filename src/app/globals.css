@@ -1,0 +1,205 @@
+@import "tailwindcss";
+
+:root {
+    --font-sans: "Inter", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", monospace;
+    --font-serif: "Cardo", Georgia, serif;
+
+    /* Professional Palette - Modern Slate & Indigo */
+    --primary-900: #0f172a;
+    /* Slate 900 */
+    --primary-600: #4f46e5;
+    /* Indigo 600 */
+    --primary-500: #6366f1;
+    /* Indigo 500 */
+    --primary-50: #f8fafc;
+    /* Slate 50 */
+    --slate-400: #94a3b8;
+    --slate-600: #475569;
+
+    /* Legacy Map (for compatibility with current component classes) */
+    --divine-green: var(--primary-900);
+    --divine-gold: var(--primary-600);
+    --divine-turmeric: var(--primary-500);
+    --divine-ivory: var(--primary-50);
+    --divine-earth: var(--slate-600);
+
+    --body-bg: #fdfdfd;
+    --card-bg: #ffffff;
+    --border-color: #e2e8f0;
+    --text-primary: #0f172a;
+    --text-secondary: #64748b;
+
+    --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-soft: 0 2px 4px 0 rgb(0 0 0 / 0.02), 0 1px 2px 0 rgb(0 0 0 / 0.06);
+    --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.05), 0 2px 4px -2px rgb(0 0 0 / 0.05);
+    --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.04), 0 4px 6px -4px rgb(0 0 0 / 0.04);
+
+    --background: var(--body-bg);
+    --foreground: var(--text-primary);
+    --border: var(--border-color);
+}
+
+body {
+    background: var(--background);
+    color: var(--foreground);
+    overflow-x: hidden;
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+}
+
+/* Background Utility */
+.app-bg-mesh {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--background);
+    background-image:
+        radial-gradient(at 100% 0%, rgba(99, 102, 241, 0.03) 0px, transparent 50%),
+        radial-gradient(at 0% 100%, rgba(79, 70, 229, 0.02) 0px, transparent 50%);
+}
+
+/* Base Card */
+.divine-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-soft);
+    border-radius: 0.75rem;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.divine-card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: #cbd5e1;
+}
+
+/* Typography */
+.heading-serif {
+    font-family: var(--font-serif);
+    font-weight: 700;
+}
+
+.text-divine-green {
+    color: var(--divine-green);
+}
+
+.text-divine-gold {
+    color: var(--divine-gold);
+}
+
+.text-divine-turmeric {
+    color: var(--divine-turmeric);
+}
+
+/* Inputs & Labels */
+.divine-input {
+    width: 100%;
+    background: #ffffff;
+    border: 1.5px solid var(--border-color);
+    border-radius: 0.75rem;
+    padding: 0.75rem 1rem;
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--text-primary);
+    transition: all 0.2s;
+}
+
+.divine-input:focus {
+    outline: none;
+    border-color: var(--divine-gold);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.08);
+}
+
+.divine-input::placeholder {
+    color: #94a3b8;
+    font-weight: 400;
+}
+
+.divine-label {
+    font-size: 0.65rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.075em;
+    color: #64748b;
+    margin-bottom: 0.4rem;
+    margin-left: 0.25rem;
+    display: block;
+}
+
+/* Modern Button */
+.divine-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--primary-900);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.75rem;
+    font-weight: 700;
+    font-size: 0.8125rem;
+    letter-spacing: 0.025em;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    cursor: pointer;
+}
+
+.divine-button:hover {
+    background: #1e293b;
+    transform: translateY(-1px);
+    box-shadow: 0 10px 20px -5px rgba(15, 23, 42, 0.15);
+}
+
+.divine-button:active {
+    transform: translateY(0);
+}
+
+.divine-button:disabled {
+    background: #f1f5f9;
+    color: #94a3b8;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Selected States */
+.selected-ring {
+    box-shadow: 0 0 0 2px white, 0 0 0 4px var(--divine-gold);
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f8fafc;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #e2e8f0;
+    border-radius: 10px;
+    border: 2px solid #f8fafc;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #cbd5e1;
+}
+
+@keyframes pulse-indigo {
+
+    0%,
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+
+    50% {
+        opacity: 0.5;
+        transform: scale(1.1);
+    }
+}
+
+.animate-pulse-soft {
+    animation: pulse-indigo 2s infinite ease-in-out;
+}

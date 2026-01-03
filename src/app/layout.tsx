@@ -1,0 +1,31 @@
+import type { Metadata } from "next";
+import { Inter, Cardo } from "next/font/google";
+import "./globals.css";
+import Navbar from "@/components/Navbar";
+
+const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
+const serif = Cardo({ weight: ["400", "700"], subsets: ["latin"], variable: "--font-serif" });
+
+export const metadata: Metadata = {
+    title: "Pariharam — High-Precision Predictive Astrology",
+    description: "Advanced astronomical computing and analytical predictive insights powered by proprietary algorithms.",
+    keywords: ["Pariharam", "Precision Astrology", "Vedic Computing", "Predictive Analytics"],
+};
+
+export default function RootLayout({
+    children,
+}: Readonly<{
+    children: React.ReactNode;
+}>) {
+    return (
+        <html lang="en">
+            <body className={`${inter.variable} ${serif.variable} font-sans antialiased min-h-screen`}>
+                <div className="app-bg-mesh" />
+                <Navbar />
+                <main className="pt-24 min-h-screen">
+                    {children}
+                </main>
+            </body>
+        </html>
+    );
+}
